@@ -1,0 +1,39 @@
+
+# ----------------------------------------------------
+# Fichiers de configuration de l'IDE VS Code
+# ----------------------------------------------------
+
+.vscode/
+*.code-workspace
+
+# ----------------------------------------------------
+# Fichiers C/C++ générés (Produits de la compilation)
+# ----------------------------------------------------
+
+# Fichiers objets
+*.o
+*.obj
+*.out
+
+# Exécutables (dépend du nom que tu donnes à l'exécutable)
+*.exe
+a.out
+
+# Bibliothèques
+*.lib
+*.dll
+*.so
+*.dylib
+
+# Dossiers de build (si tu utilises des dossiers comme 'bin' ou 'build')
+/bin/
+/build/
+/obj/
+
+# Fichiers de débogage
+*.pdb
+*.ilk
+
+# Autres fichiers temporaires ou logs
+*.log
+*~
