@@ -1,5 +1,3 @@
-// Fichier : TP2/main_graphe.c
-
 #include "graphe.h"
 
 // Noms des pays pour l'affichage
@@ -22,7 +20,7 @@ const char* NOMS_PAYS[11] = {
 int main() {
     printf("--- Lancement Test TP2 - Partie Graphe ---\n");
 
-    // 1. Charger le graphe depuis le fichier
+    // Charger le graphe depuis le fichier
     Graphe* g = chargeGraphe("carte_europe.txt");
     
     if (g == NULL) {
@@ -30,13 +28,13 @@ int main() {
         return 1;
     }
 
-    // Optionnel : afficher la matrice pour vérifier
+    // Afficher la matrice pour vérifier
     afficher_matrice(g);
 
-    // 2. Lancer la coloration
+    // Lancer la coloration
     int* couleurs = coloration_welsh_powell(g);
 
-    // 3. Afficher les résultats détaillés
+    // Afficher les résultats détaillés
     if (g->nb_sommets == 11) {
         afficher_ordre_marquage_et_resultat(g, couleurs, NOMS_PAYS);
     } else {
@@ -44,12 +42,12 @@ int main() {
         afficher_ordre_marquage_et_resultat(g, couleurs, NULL);
     }
 
-    // 4. Nettoyage
+    // Nettoyage
     liberer_graphe(g);
     free(couleurs);
 
     printf("\n--- Test 'chargeGraphe' depuis stdin ---\n");
-    printf("Créez un petit graphe (ex: 3 sommets, matrice 3x3)\n");
+    printf("Creez un petit graphe (ex: 3 sommets, matrice 3x3)\n");
     Graphe* g_stdin = chargeGraphe(NULL); // NULL pour lire depuis stdin
     
     if (g_stdin) {

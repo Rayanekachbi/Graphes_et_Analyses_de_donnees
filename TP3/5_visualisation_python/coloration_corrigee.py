@@ -2,19 +2,21 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 class Graph:
+    
+    # Initialise le graphe avec N sommets
     def __init__(self, vertices):
         self.vertices = vertices
         # Initialise la matrice à 0
         self.adjMatrix = [[0] * vertices for _ in range(vertices)]
 
+    # Ajoute une arête non-orientée entre deux sommets u et v
     def add_edge(self, u, v):
         self.adjMatrix[u][v] = 1
         self.adjMatrix[v][u] = 1
 
     # --- DEBUT DU CODE CORRIGE ---
 
-    # J'ai ajouté une fonction 'peut_colorer' (similaire à 'is_safe'
-    # de l'autre script Python) pour plus de clarté
+    # Verifie si le sommet 'v' peut prendre la couleur 'c'
     def peut_colorer(self, v, c, color):
         """Verifie si le sommet 'v' peut prendre la couleur 'c'"""
         for i in range(self.vertices):
@@ -23,6 +25,7 @@ class Graph:
                 return False
         return True
 
+    # Exécute l'algorithme de coloration de Welsh-Powell
     def welsh_powell(self):
         # 1. Calculer les degrés
         degree = [sum(row) for row in self.adjMatrix]
@@ -57,7 +60,7 @@ class Graph:
                     if self.peut_colorer(vertex, couleur_actuelle, color):
                         color[vertex] = couleur_actuelle
                         sommets_colores += 1
-                        print(f"  -> Sommet {vertex}")
+                        print(f"  -> Sommet {vertex}")
             
             # On passe à la couleur suivante
             couleur_actuelle += 1
@@ -69,12 +72,13 @@ class Graph:
         print(f"Graphe colore (Python corrige) avec {num_colors} couleurs:")
         for c in range(1, num_colors + 1):
             nodes_with_color = [i for i, col in enumerate(color) if col == c]
-            print(f"  Couleur {c}: {nodes_with_color}")
+            print(f"  Couleur {c}: {nodes_with_color}")
 
         return color, num_colors
 
     # --- FIN DU CODE CORRIGE ---
 
+    # Dessine le graphe avec les couleurs trouvées
     def draw_colored_graph(self, color_map, num_colors):
         """Dessine le graphe avec les couleurs trouvées."""
         G = nx.Graph()
@@ -86,7 +90,8 @@ class Graph:
         
         # Crée une palette de couleurs
         palette = plt.cm.get_cmap('rainbow', num_colors)
-        node_colors = [palette(c - 1) for c in color_map] # c-1 car les couleurs sont 1-indexées
+        # c-1 car les couleurs sont 1-indexées
+        node_colors = [palette(c - 1) for c in color_map] 
 
         plt.figure(figsize=(8, 6))
         nx.draw(G, 

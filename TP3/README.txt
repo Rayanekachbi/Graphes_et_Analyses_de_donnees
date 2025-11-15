@@ -52,8 +52,8 @@ gcc -o perf main_performance.c graphe.c -Wall -O2
 cd 5_visualisation_python
 
 # Créer un environnement virtuel
-# python -m venv venv
-# source venv/bin/activate  (ou .\venv\Scripts\activate sur Windows)
+python -m venv venv
+source venv/bin/activate  (ou .\venv\bin\activate sur Windows)
 
 # Installer les librairies
 pip install networkx matplotlib

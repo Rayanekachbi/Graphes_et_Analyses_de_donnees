@@ -1,5 +1,3 @@
-// Fichier : TP3/chatgpt_corrige.c
-
 #include <stdio.h>
 #include <stdlib.h> // Pour malloc, free, qsort
 
@@ -15,8 +13,7 @@ void addEdge(struct Graph* graph, int u, int v) {
     graph->adjMatrix[v][u] = 1;
 }
 
-// --- J'ai réutilisé la structure SommetInfo de votre TP2 ---
-// --- pour qsort, car le bubble sort est très lent ---
+// Structure temporaire pour trier les sommets
 typedef struct {
     int id_sommet;
     int degre;
@@ -29,7 +26,7 @@ int comparer_sommets(const void* a, const void* b) {
     return s2->degre - s1->degre; // Tri décroissant
 }
 
-// Fonction "peut_colorer" de votre TP2, adaptée
+// Vérifie si un sommet peut prendre une couleur
 int peut_colorer(struct Graph* graph, int sommet, int couleur, int* couleurs) {
     for (int i = 0; i < graph->vertices; i++) {
         if (graph->adjMatrix[sommet][i] == 1 && couleurs[i] == couleur) {
@@ -44,7 +41,7 @@ void welshPowell(struct Graph* graph) {
     int n = graph->vertices;
     if (n <= 0) return;
 
-    // 1. Calculer les degrés
+    // Calculer les degrés
     SommetInfo* infos_sommets = (SommetInfo*)malloc(n * sizeof(SommetInfo));
     if (infos_sommets == NULL) {
         perror("Allocation infos_sommets echouee");
@@ -61,10 +58,10 @@ void welshPowell(struct Graph* graph) {
         }
     }
 
-    // 2. Trier les sommets par degré décroissant
+    // Trier les sommets par degré décroissant
     qsort(infos_sommets, n, sizeof(SommetInfo), comparer_sommets);
 
-    // 3. Initialiser le tableau des couleurs
+    // Initialiser le tableau des couleurs
     // 0 = non coloré
     int* couleurs = (int*)calloc(n, sizeof(int));
     if (couleurs == NULL) {
@@ -73,7 +70,6 @@ void welshPowell(struct Graph* graph) {
         return;
     }
 
-    // --- LOGIQUE CORRIGEE (basée sur votre TP2) ---
     int couleur_actuelle = 1;
     int sommets_colores = 0;
 
@@ -96,7 +92,6 @@ void welshPowell(struct Graph* graph) {
             couleur_actuelle++;
         }
     }
-    // --- FIN LOGIQUE CORRIGEE ---
 
     printf("Graphe colore (version C corrigee) avec %d couleurs:\n", couleur_actuelle);
     for (int i = 0; i < n; i++) {
@@ -120,7 +115,7 @@ int main() {
         }
     }
 
-    // Add edges
+    // Ajout des arêtes
     addEdge(&graph, 0, 1);
     addEdge(&graph, 0, 2);
     addEdge(&graph, 1, 2);

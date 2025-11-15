@@ -1,13 +1,9 @@
-// Fichier : TP3/graphe_liste.c
-
 #include "graphe_liste.h"
 #include <string.h> // Pour strdup et strcmp
 
-// --- Fonctions de Liste (Inspirées du TP0) ---
+// Fonctions de Liste
 
-/**
- * @brief Crée une nouvelle cellule de voisin (similaire à NouvCel).
- */
+// Crée une nouvelle cellule de voisin (similaire à NouvCel).
 CelluleVoisin* NouvCelVoisin(Sommet* v) {
     CelluleVoisin* nc = (CelluleVoisin*)malloc(sizeof(CelluleVoisin));
     if (nc == NULL) {
@@ -19,10 +15,7 @@ CelluleVoisin* NouvCelVoisin(Sommet* v) {
     return nc;
 }
 
-/**
- * @brief Insère un voisin au début de la liste d'un sommet.
- * C'est plus simple et efficace pour une liste d'adjacence.
- */
+// Insère un voisin au début de la liste d'un sommet.
 void InsererVoisin(Sommet* s, Sommet* v) {
     if (s == NULL || v == NULL) return;
     
@@ -33,11 +26,9 @@ void InsererVoisin(Sommet* s, Sommet* v) {
     s->listeVoisins = nc;
 }
 
-// --- Fonctions de Graphe ---
+// Fonctions de Graphe
 
-/**
- * @brief Crée un graphe (tableau de sommets) à partir d'une liste de noms.
- */
+// Crée un graphe (tableau de sommets) à partir d'une liste de noms.
 Graphe* creerGrapheListe(int nb_sommets, const char** noms) {
     Graphe* g = (Graphe*)malloc(sizeof(Graphe));
     if (g == NULL) {
@@ -65,9 +56,7 @@ Graphe* creerGrapheListe(int nb_sommets, const char** noms) {
     return g;
 }
 
-/**
- * @brief Libère toute la mémoire du graphe (sommets et listes).
- */
+// Libère toute la mémoire du graphe (sommets et listes).
 void libererGrapheListe(Graphe* g) {
     if (g == NULL) return;
 
@@ -90,9 +79,7 @@ void libererGrapheListe(Graphe* g) {
     free(g);
 }
 
-/**
- * @brief Ajoute une arête non-orientée entre deux sommets (par ID).
- */
+// Ajoute une arête non-orientée entre deux sommets (par ID).
 void ajouterAreteListe(Graphe* g, int id1, int id2) {
     if (id1 < 0 || id1 >= g->nb_sommets || id2 < 0 || id2 >= g->nb_sommets) {
         fprintf(stderr, "Erreur: ID de sommet invalide (%d, %d)\n", id1, id2);
@@ -111,9 +98,7 @@ void ajouterAreteListe(Graphe* g, int id1, int id2) {
     s2->degre++;
 }
 
-/**
- * @brief Affiche le graphe (listes d'adjacence).
- */
+// Affiche le graphe (listes d'adjacence).
 void afficherGrapheListe(Graphe* g) {
     printf("--- Listes d'adjacence du graphe (%d sommets) ---\n", g->nb_sommets);
     for (int i = 0; i < g->nb_sommets; i++) {
@@ -132,12 +117,10 @@ void afficherGrapheListe(Graphe* g) {
     }
 }
 
-// --- Algorithme Welsh-Powell pour Listes ---
+// Algorithme Welsh-Powell pour Listes
 
-/**
- * @brief Fonction de comparaison pour qsort, trie les *pointeurs* de Sommet
- * par degré décroissant.
- */
+// Fonction de comparaison pour qsort, trie les *pointeurs* de Sommet
+// par degré décroissant.
 int comparer_sommets_liste(const void* a, const void* b) {
     // On reçoit des pointeurs vers des pointeurs de Sommet (Sommet**)
     Sommet* s1 = *(Sommet**)a;
@@ -145,10 +128,8 @@ int comparer_sommets_liste(const void* a, const void* b) {
     return s2->degre - s1->degre; // Tri décroissant
 }
 
-/**
- * @brief Vérifie si un sommet peut prendre une couleur.
- * (Vérifie si un de ses voisins a déjà cette couleur)
- */
+// Vérifie si un sommet peut prendre une couleur.
+// (Vérifie si un de ses voisins a déjà cette couleur)
 int peut_colorer_liste(Sommet* s, int couleur) {
     CelluleVoisin* v_cel = s->listeVoisins;
     while (v_cel != NULL) {
@@ -160,14 +141,12 @@ int peut_colorer_liste(Sommet* s, int couleur) {
     return 1; // Pas de conflit
 }
 
-/**
- * @brief Applique Welsh-Powell sur un graphe à listes d'adjacence.
- */
+// Applique Welsh-Powell sur un graphe à listes d'adjacence.
 void colorationWelshPowellListe(Graphe* g) {
     int n = g->nb_sommets;
     if (n <= 0) return;
 
-    // 1. Créer un tableau de POINTEURS vers les sommets pour le tri
+    // Créer un tableau de POINTEURS vers les sommets pour le tri
     Sommet** sommets_tries = (Sommet**)malloc(n * sizeof(Sommet*));
     if (sommets_tries == NULL) {
         perror("Allocation sommets_tries echouee");
@@ -177,16 +156,16 @@ void colorationWelshPowellListe(Graphe* g) {
         sommets_tries[i] = &g->tab_sommets[i];
     }
     
-    // 2. Trier les sommets par degré (déjà calculé lors de l'ajout des arêtes)
+    // Trier les sommets par degré (déjà calculé lors de l'ajout des arêtes)
     qsort(sommets_tries, n, sizeof(Sommet*), comparer_sommets_liste);
     
-    // 3. Initialisation (déjà faite dans creerGrapheListe, s->couleur = 0)
+    // Initialisation (déjà faite dans creerGrapheListe, s->couleur = 0)
     int couleur_actuelle = 1;
     int sommets_colores = 0;
 
     printf("\n--- Ordre de marquage (Welsh-Powell) ---\n");
     
-    // 4. Boucle principale de coloration
+    // Boucle principale de coloration
     while (sommets_colores < n) {
         printf("Application de la Couleur %d sur :\n", couleur_actuelle);
         
@@ -199,7 +178,7 @@ void colorationWelshPowellListe(Graphe* g) {
                 if (peut_colorer_liste(s, couleur_actuelle)) {
                     s->couleur = couleur_actuelle;
                     sommets_colores++;
-                    printf("  -> %s\n", s->nom); // Affiche le marquage
+                    printf("   -> %s\n", s->nom); // Affiche le marquage
                 }
             }
         }
@@ -209,11 +188,11 @@ void colorationWelshPowellListe(Graphe* g) {
         }
     }
     
-    // 5. Affichage final
+    // Affichage final
     printf("\n--- Resultats de la Coloration (Listes) ---\n");
     printf("Algorithme a utilise %d couleurs.\n", couleur_actuelle);
     for (int c = 1; c <= couleur_actuelle; c++) {
-        printf("  Couleur %d: ", c);
+        printf("   Couleur %d: ", c);
         for (int i = 0; i < n; i++) {
             if (g->tab_sommets[i].couleur == c) {
                 printf("%s ", g->tab_sommets[i].nom);

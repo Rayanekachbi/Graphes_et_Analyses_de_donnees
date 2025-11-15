@@ -14,13 +14,13 @@ typedef struct {
     Sommet* tab_sommets; // Tableau de tous les sommets
 } Graphe;
 
-// La cellule de la liste d'adjacence (votre 'cellule' du TP0 adaptée)
+// La cellule de la liste d'adjacence ('cellule' du TP0 adaptée)
 struct CelluleVoisin {
     Sommet* voisin; // Pointeur vers le sommet voisin
     CelluleVoisin* suivant;
 };
 
-// Le Sommet (nœud du graphe)
+// Le Sommet (noeud du graphe)
 struct Sommet {
     int id; // 0, 1, 2...
     char* nom; // "France", "Espagne"...
@@ -37,7 +37,7 @@ void libererGrapheListe(Graphe* g);
 void ajouterAreteListe(Graphe* g, int id1, int id2);
 void afficherGrapheListe(Graphe* g);
 
-// Fonctions Liste (Adaptées de votre TP0/liste.c)
+// Fonctions Liste (Adaptées de TP0/liste.c)
 CelluleVoisin* NouvCelVoisin(Sommet* v);
 void InsererVoisin(Sommet* s, Sommet* v); // Ajoute v à la liste de s
 

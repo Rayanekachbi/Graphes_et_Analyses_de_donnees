@@ -1,16 +1,12 @@
-// Fichier : TP3/main_performance.c (Modifié pour Excel FR)
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <locale.h> // <-- 1. AJOUTER CE HEADER
+#include <locale.h> // Pour setlocale
 #include "graphe.h" // On réutilise le code du TP2
 
-/**
- * @brief Crée un graphe aléatoire de N sommets.
- * @param N Nombre de sommets.
- * @param densite Probabilité (entre 0.0 et 1.0) qu'une arête existe.
- */
+// Crée un graphe aléatoire de N sommets.
+// N: Nombre de sommets.
+// densite: Probabilité (entre 0.0 et 1.0) qu'une arête existe.
 Graphe* genererGrapheAleatoire(int N, float densite) {
     if (N <= 0) return NULL;
     Graphe* g = creer_graphe(N);
@@ -31,24 +27,23 @@ Graphe* genererGrapheAleatoire(int N, float densite) {
 
 int main() {
     
-    // 2. DIRE A PRINTF D'UTILISER LES PARAMETRES FRANCAIS (POUR LA VIRGULE)
+    // Indique à printf d'utiliser les paramètres français (pour la virgule)
     setlocale(LC_ALL, ""); 
 
     // Initialise le générateur de nombres aléatoires
     srand((unsigned int)time(NULL));
 
-    // On reprend vos tailles qui ont bien fonctionné
+    // Tailles de graphes à tester
     int tailles[] = {10, 50, 100, 200, 500, 1000, 2000, 4000, 8000};
     int nb_tailles = sizeof(tailles) / sizeof(tailles[0]);
     float densite = 0.1; // Graphe avec 10% d'arêtes
 
-    // 3. CHANGER LE SEPARATEUR EN ';'
+    // En-tête CSV avec ';' comme séparateur
     printf("N;Temps_CPU (secondes)\n");
 
     for (int i = 0; i < nb_tailles; i++) {
         int N = tailles[i];
         
-        // --- Mesure du temps ---
         clock_t start = clock();
         
         Graphe* g = genererGrapheAleatoire(N, densite);
@@ -57,15 +52,13 @@ int main() {
             continue;
         }
         
-        // On suppose que vous avez commenté le printf dans graphe.c
+        // On suppose que le printf dans coloration_welsh_powell est commenté
         int* couleurs = coloration_welsh_powell(g);
         
         clock_t end = clock();
-        // --- Fin Mesure ---
         
         double temps_cpu = ((double) (end - start)) / CLOCKS_PER_SEC;
         
-        // 4. CHANGER LE SEPARATEUR EN ';'
         // %f va maintenant imprimer une virgule grace a setlocale
         printf("%d;%f\n", N, temps_cpu);
 

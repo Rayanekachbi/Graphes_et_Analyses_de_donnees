@@ -1,12 +1,10 @@
-// Fichier : TP2/graphe.c (Corrigé)
-
 #include "graphe.h"
 #include <string.h> // Pour calloc (ou memset)
 
-// --- Fonctions de base du Graphe ---
+// Fonctions de base du Graphe
 
 Graphe* creer_graphe(int nb_sommets) {
-    // 1. Allouer la structure Graphe
+    // Allouer la structure Graphe
     Graphe* g = (Graphe*)malloc(sizeof(Graphe));
     if (g == NULL) {
         perror("Erreur allocation graphe");
@@ -14,7 +12,7 @@ Graphe* creer_graphe(int nb_sommets) {
     }
     g->nb_sommets = nb_sommets;
 
-    // 2. Allouer le tableau des pointeurs de lignes
+    // Allouer le tableau des pointeurs de lignes
     g->adjacence = (int**)malloc(nb_sommets * sizeof(int*));
     if (g->adjacence == NULL) {
         perror("Erreur allocation matrice (lignes)");
@@ -22,9 +20,9 @@ Graphe* creer_graphe(int nb_sommets) {
         exit(1);
     }
 
-    // 3. Allouer chaque ligne et l'initialiser à 0
+    // Allouer chaque ligne et l'initialiser à 0
     for (int i = 0; i < nb_sommets; i++) {
-        // calloc met la mémoire à 0, c'est parfait pour nous
+        // calloc met la mémoire à 0
         g->adjacence[i] = (int*)calloc(nb_sommets, sizeof(int));
         if (g->adjacence[i] == NULL) {
             perror("Erreur allocation matrice (colonne)");
@@ -41,13 +39,13 @@ Graphe* creer_graphe(int nb_sommets) {
 void liberer_graphe(Graphe* g) {
     if (g == NULL) return;
     
-    // 1. Libérer chaque ligne
+    // Libérer chaque ligne
     for (int i = 0; i < g->nb_sommets; i++) {
         free(g->adjacence[i]);
     }
-    // 2. Libérer le tableau de pointeurs
+    // Libérer le tableau de pointeurs
     free(g->adjacence);
-    // 3. Libérer la structure
+    // Libérer la structure
     free(g);
 }
 
@@ -75,7 +73,7 @@ void afficher_matrice(Graphe* g) {
     }
 }
 
-// --- Algorithme Welsh-Powell ---
+// Algorithme Welsh-Powell
 
 // Structure temporaire pour trier les sommets par degré
 typedef struct {
@@ -105,7 +103,7 @@ int peut_colorer(Graphe* g, int sommet, int couleur, int* couleurs) {
 int* coloration_welsh_powell(Graphe* g) {
     int n = g->nb_sommets;
     
-    // 1. Calculer les degrés
+    // Calculer les degrés
     SommetInfo* infos_sommets = (SommetInfo*)malloc(n * sizeof(SommetInfo));
     for (int i = 0; i < n; i++) {
         infos_sommets[i].id_sommet = i;
@@ -117,17 +115,17 @@ int* coloration_welsh_powell(Graphe* g) {
         }
     }
 
-    // 2. Trier les sommets par degré décroissant
+    // Trier les sommets par degré décroissant
     qsort(infos_sommets, n, sizeof(SommetInfo), comparer_sommets);
 
-    // 3. Initialiser le tableau des couleurs
+    // Initialiser le tableau des couleurs
     // calloc met tout à 0 (0 = non coloré)
     int* couleurs = (int*)calloc(n, sizeof(int));
     
     int couleur_actuelle = 1;
     int sommets_colores = 0;
 
-    // 4. Boucle principale de coloration
+    // Boucle principale de coloration
     while (sommets_colores < n) {
         // Parcourir la liste triée
         for (int i = 0; i < n; i++) {
@@ -155,7 +153,7 @@ int* coloration_welsh_powell(Graphe* g) {
     return couleurs;
 }
 
-// --- NOUVELLES FONCTIONS TP2 ---
+// NOUVELLES FONCTIONS TP2
 
 Graphe* chargeGraphe(const char* nom_fichier) {
     FILE* f = NULL;
@@ -173,7 +171,7 @@ Graphe* chargeGraphe(const char* nom_fichier) {
         printf("Entrez l'ordre du graphe (nb sommets) : ");
     }
 
-    // 1. Lire l'ordre du graphe (première ligne)
+    // Lire l'ordre du graphe (première ligne)
     if (fscanf(f, "%d", &nb_sommets) != 1) {
         fprintf(stderr, "Erreur lecture nombre de sommets.\n");
         if (nom_fichier != NULL) fclose(f);
@@ -186,22 +184,20 @@ Graphe* chargeGraphe(const char* nom_fichier) {
         return NULL;
     }
 
-    // 2. Créer le graphe
+    // Créer le graphe
     Graphe* g = creer_graphe(nb_sommets);
     
     if (nom_fichier == NULL) {
          printf("Entrez la matrice d'adjacence (%d x %d) :\n", nb_sommets, nb_sommets);
     }
 
-    // 3. Lire la matrice
+    // Lire la matrice
     for (int i = 0; i < nb_sommets; i++) {
         
-        // --- AMELIORATION ---
         // Guide l'utilisateur pour la saisie stdin
         if (nom_fichier == NULL) {
             printf("Entrez la ligne %d (%d entiers) : ", i, nb_sommets);
         }
-        // --- FIN AMELIORATION ---
 
         for (int j = 0; j < nb_sommets; j++) {
             int val;
@@ -223,7 +219,6 @@ Graphe* chargeGraphe(const char* nom_fichier) {
         fclose(f);
     }
     
-    // CORRECTION ACCENT: "chargé" -> "charge"
     printf("Graphe charge avec %d sommets.\n", nb_sommets);
     return g;
 }
@@ -232,7 +227,7 @@ Graphe* chargeGraphe(const char* nom_fichier) {
 void afficher_ordre_marquage_et_resultat(Graphe* g, int* couleurs, const char** noms_sommets) {
     int n = g->nb_sommets;
     
-    // 1. On doit recalculer les degrés pour l'ordre de marquage
+    // On doit recalculer les degrés pour l'ordre de marquage
     SommetInfo* infos_sommets = (SommetInfo*)malloc(n * sizeof(SommetInfo));
     if (!infos_sommets) {
         perror("Erreur allocation infos_sommets");
@@ -248,16 +243,14 @@ void afficher_ordre_marquage_et_resultat(Graphe* g, int* couleurs, const char** 
         }
     }
 
-    // 2. Trier les sommets (l'ordre de marquage)
+    // Trier les sommets (l'ordre de marquage)
     qsort(infos_sommets, n, sizeof(SommetInfo), comparer_sommets);
 
-    // 3. Afficher l'ordre de marquage
+    // Afficher l'ordre de marquage
     printf("\n--- Ordre de marquage (Welsh-Powell) ---\n");
-    // CORRECTION ACCENTS: "degré décroissant"
     printf("(Tri des sommets par degre decroissant)\n");
     for (int i = 0; i < n; i++) {
         int id = infos_sommets[i].id_sommet;
-        // CORRECTION ACCENT: "Degré"
         printf("%d. Sommet %d (%s) - Degre: %d\n", 
                i + 1, 
                id, 
@@ -265,19 +258,17 @@ void afficher_ordre_marquage_et_resultat(Graphe* g, int* couleurs, const char** 
                infos_sommets[i].degre);
     }
 
-    // 4. Afficher les résultats de la coloration
-    // CORRECTION ACCENT: "Résultats"
+    // Afficher les résultats de la coloration
     printf("\n--- Resultats de la Coloration ---\n");
     // On doit trouver la couleur max
     int nb_couleurs = 0;
     for(int i = 0; i < n; i++) {
         if(couleurs[i] > nb_couleurs) nb_couleurs = couleurs[i];
     }
-    // CORRECTION ACCENT: "utilisé"
     printf("Algorithme a utilise %d couleurs.\n", nb_couleurs);
 
     for (int c = 1; c <= nb_couleurs; c++) {
-        printf("  Couleur %d: ", c);
+        printf("   Couleur %d: ", c);
         for (int i = 0; i < n; i++) {
             if (couleurs[i] == c) {
                 // Affiche le nom si disponible, sinon l'ID

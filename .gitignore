@@ -37,3 +37,4 @@ a.out
 # Autres fichiers temporaires ou logs
 *.log
 *~
+venv

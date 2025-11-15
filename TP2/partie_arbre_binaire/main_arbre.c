@@ -1,16 +1,14 @@
-// Fichier : TP2/main_arbre.c
-
 #include "arbre.h"
 
 int main() {
     printf("--- Lancement Test TP2 - Partie Arbres Binaires ---\n");
 
-    // 1. Création de l'arbre synthétique
+    // Création de l'arbre synthétique
     Noeud* monArbre = creerArbreSynthetique();
     printf("Arbre synthetique cree.\n");
     printf("Structure attendue : A( B(D, E), C(F, NULL) )\n");
 
-    // 2. Test des parcours
+    // Test des parcours
     
     printf("\nParcours Prefixe (RGD) :\n");
     parcoursPrefixe(monArbre);
@@ -24,7 +22,7 @@ int main() {
     parcoursPostfixe(monArbre);
     printf("\n(Attendu: D E B F C A)");
 
-    // 3. Libération de la mémoire
+    // Libération de la mémoire
     printf("\n\nLiberation de l'arbre...\n");
     libererArbre(monArbre);
     printf("Arbre libere.\n");

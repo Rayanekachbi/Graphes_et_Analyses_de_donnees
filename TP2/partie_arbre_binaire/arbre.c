@@ -1,8 +1,6 @@
-// Fichier : TP2/arbre.c
-
 #include "arbre.h"
 
-// Crée un nouveau nœud (une feuille)
+// Crée un nouveau noeud 
 Noeud* creerNoeud(char val) {
     Noeud* nouveau = (Noeud*)malloc(sizeof(Noeud));
     if (nouveau == NULL) {
@@ -29,11 +27,11 @@ void libererArbre(Noeud* racine) {
 
 // Crée un arbre "ad hoc" pour les tests
 // Arbre créé :
-//        A
-/*       / \  */
-//      B   C
-//     / \ /
-//    D  E F
+//         A
+/*       /   \ */
+//      B     C
+//     / \   /
+//    D   E F
 Noeud* creerArbreSynthetique() {
     Noeud* racine = creerNoeud('A');
     
@@ -50,64 +48,55 @@ Noeud* creerArbreSynthetique() {
 }
 
 
-// --- Implémentation des Parcours ---
+// Implémentation des Parcours
 
-/**
- * Parcours Préfixe : Racine, Gauche, Droit (RGD)
- * 
- */
+// Parcours Préfixe : Racine, Gauche, Droit (RGD)
 void parcoursPrefixe(Noeud* racine) {
     // Cas de base de la récursion
     if (racine == NULL) {
         return;
     }
     
-    // 1. Visiter la Racine
+    // Visiter la Racine
     printf("%c ", racine->val);
     
-    // 2. Visiter le sous-arbre Gauche
+    // Visiter le sous-arbre Gauche
     parcoursPrefixe(racine->gauche);
     
-    // 3. Visiter le sous-arbre Droit
+    // Visiter le sous-arbre Droit
     parcoursPrefixe(racine->droit);
 }
 
-/**
- * Parcours Infixe : Gauche, Racine, Droit (GRD)
- * 
- */
+// Parcours Infixe : Gauche, Racine, Droit (GRD)
 void parcoursInfixe(Noeud* racine) {
     // Cas de base de la récursion
     if (racine == NULL) {
         return;
     }
     
-    // 1. Visiter le sous-arbre Gauche
+    // Visiter le sous-arbre Gauche
     parcoursInfixe(racine->gauche);
     
-    // 2. Visiter la Racine
+    // Visiter la Racine
     printf("%c ", racine->val);
     
-    // 3. Visiter le sous-arbre Droit
+    // Visiter le sous-arbre Droit
     parcoursInfixe(racine->droit);
 }
 
-/**
- * Parcours Postfixe : Gauche, Droit, Racine (GDR)
- * 
- */
+// Parcours Postfixe : Gauche, Droit, Racine (GDR)
 void parcoursPostfixe(Noeud* racine) {
     // Cas de base de la récursion
     if (racine == NULL) {
         return;
     }
     
-    // 1. Visiter le sous-arbre Gauche
+    // Visiter le sous-arbre Gauche
     parcoursPostfixe(racine->gauche);
     
-    // 2. Visiter le sous-arbre Droit
+    // Visiter le sous-arbre Droit
     parcoursPostfixe(racine->droit);
     
-    // 3. Visiter la Racine
+    // Visiter la Racine
     printf("%c ", racine->val);
 }

@@ -1,10 +1,10 @@
 #include "graphe.h"
-#include <string.h> // Pour calloc (ou memset)
+#include <string.h> 
 
-// --- Fonctions de base du Graphe ---
+// Fonctions de base du Graphe
 
 Graphe* creer_graphe(int nb_sommets) {
-    // 1. Allouer la structure Graphe
+    // Allouer la structure Graphe
     Graphe* g = (Graphe*)malloc(sizeof(Graphe));
     if (g == NULL) {
         perror("Erreur allocation graphe");
@@ -12,7 +12,7 @@ Graphe* creer_graphe(int nb_sommets) {
     }
     g->nb_sommets = nb_sommets;
 
-    // 2. Allouer le tableau des pointeurs de lignes
+    // Allouer le tableau des pointeurs de lignes
     g->adjacence = (int**)malloc(nb_sommets * sizeof(int*));
     if (g->adjacence == NULL) {
         perror("Erreur allocation matrice (lignes)");
@@ -20,13 +20,13 @@ Graphe* creer_graphe(int nb_sommets) {
         exit(1);
     }
 
-    // 3. Allouer chaque ligne et l'initialiser à 0
+    // Allouer chaque ligne et l'initialiser à 0
     for (int i = 0; i < nb_sommets; i++) {
-        // calloc met la mémoire à 0, c'est parfait pour nous
+        // calloc met la mémoire à 0
         g->adjacence[i] = (int*)calloc(nb_sommets, sizeof(int));
         if (g->adjacence[i] == NULL) {
             perror("Erreur allocation matrice (colonne)");
-            // Libérer tout ce qui a été alloué avant de planter
+            // Libérer tout ce qui a été alloué avant de quitter
             for(int j = 0; j < i; j++) free(g->adjacence[j]);
             free(g->adjacence);
             free(g);
@@ -39,13 +39,13 @@ Graphe* creer_graphe(int nb_sommets) {
 void liberer_graphe(Graphe* g) {
     if (g == NULL) return;
     
-    // 1. Libérer chaque ligne
+    // Libérer chaque ligne
     for (int i = 0; i < g->nb_sommets; i++) {
         free(g->adjacence[i]);
     }
-    // 2. Libérer le tableau de pointeurs
+    // Libérer le tableau de pointeurs
     free(g->adjacence);
-    // 3. Libérer la structure
+    // Libérer la structure
     free(g);
 }
 
@@ -73,7 +73,7 @@ void afficher_matrice(Graphe* g) {
     }
 }
 
-// --- Algorithme Welsh-Powell ---
+// Algorithme Welsh-Powell
 
 // Structure temporaire pour trier les sommets par degré
 typedef struct {
@@ -103,7 +103,7 @@ int peut_colorer(Graphe* g, int sommet, int couleur, int* couleurs) {
 int* coloration_welsh_powell(Graphe* g) {
     int n = g->nb_sommets;
     
-    // 1. Calculer les degrés
+    // Calculer les degrés
     SommetInfo* infos_sommets = (SommetInfo*)malloc(n * sizeof(SommetInfo));
     for (int i = 0; i < n; i++) {
         infos_sommets[i].id_sommet = i;
@@ -115,17 +115,17 @@ int* coloration_welsh_powell(Graphe* g) {
         }
     }
 
-    // 2. Trier les sommets par degré décroissant
+    // Trier les sommets par degré décroissant
     qsort(infos_sommets, n, sizeof(SommetInfo), comparer_sommets);
 
-    // 3. Initialiser le tableau des couleurs
+    // Initialiser le tableau des couleurs
     // calloc met tout à 0 (0 = non coloré)
     int* couleurs = (int*)calloc(n, sizeof(int));
     
     int couleur_actuelle = 1;
     int sommets_colores = 0;
 
-    // 4. Boucle principale de coloration
+    // Boucle principale de coloration
     while (sommets_colores < n) {
         // Parcourir la liste triée
         for (int i = 0; i < n; i++) {

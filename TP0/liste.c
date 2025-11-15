@@ -1,7 +1,7 @@
 #include "liste.h"
 
-//qui alloue l'espace mémoire pour une cellule, remplit les champs de la
-//structure cellule et retourne un pointeur sur cette cellule 
+// alloue l'espace mémoire pour une cellule, remplit les champs de la
+// structure cellule et retourne un pointeur sur cette cellule 
 cellule *NouvCel (point p){
     cellule *nc = (cellule*)malloc(sizeof(cellule));
     if(nc==NULL){
@@ -16,8 +16,8 @@ cellule *NouvCel (point p){
     return nc;
 } 
 
-//qui permet d'insérer la cellule cel après la place pl
-//dans la liste liste
+// permet d'insérer la cellule cel après la place pl
+// dans la liste liste
 void InsererCellule(int pl, cellule *cel, cellule *liste){
 
     if(cel == NULL || liste == NULL){
@@ -46,7 +46,7 @@ void InsererCellule(int pl, cellule *cel, cellule *liste){
     temp->suivant = cel;
 }
 
-// qui permet de supprimer la cellule à la position pl dans la
+// permet de supprimer la cellule à la position pl dans la
 // liste (version corrigée)
 void SupprimeCellule(int pl, cellule **liste) {
     if (*liste == NULL) {
@@ -90,7 +90,7 @@ void SupprimeCellule(int pl, cellule **liste) {
     free(temp); // Libérer la mémoire de la cellule supprimée
 }
 
-//qui affiche la liste liste
+// affiche la liste liste
 void Afficher(cellule *liste){
     cellule *temp = liste;
     while(temp != NULL){

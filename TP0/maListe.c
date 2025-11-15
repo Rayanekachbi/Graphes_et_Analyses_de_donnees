@@ -1,4 +1,4 @@
-#include "liste.h" // On inclut notre propre fichier .h
+#include "liste.h"
 
 int main(){
     int nbr;
@@ -6,7 +6,6 @@ int main(){
     cellule *head = NULL; // Toujours initialiser la tête à NULL
     cellule *A = NULL;
 
-    // Modifie: "nombre"
     printf("Nombre de points: ");
     scanf("%d",&nbr);
 
@@ -15,7 +14,6 @@ int main(){
         return 0; 
     }
 
-    // Modifie: "inserez", "n° 1"
     printf("Inserez x et y du point n 1: ");
     scanf("%d%d",&(a.x),&(a.y));
     head = NouvCel(a);
@@ -23,20 +21,18 @@ int main(){
 
     // Ajouter le reste des points
     for(int i = 1; i < nbr; i++){ 
-        // Modifie: "inserez", "n°"
         printf("Inserez x et y du point n %d: ",i+1);
         scanf("%d%d",&(a.x),&(a.y));
         
         A->suivant = NouvCel(a);
         A->suivant->precedent = A; // Lier le précédent (liste doublement chaînée)
-        A = A->suivant; // Avancer au nouveau nœud
+        A = A->suivant; // Avancer au nouveau noeud
     }
 
-    // Modifie: "Liste créée"
     printf("Liste creee: ");
     Afficher(head);
 
-    // --- Insertion ---
+    // Insertion
     point b_point = {10, 11}; // Initialisation propre du point
     cellule *B = NouvCel(b_point);
 
@@ -44,14 +40,12 @@ int main(){
     InsererCellule(2, B, head); 
     Afficher(head);
 
-    // --- Suppression ---
-    // Modifie: "l'élément"
+    // Suppression
     printf("\nSuppression de l'element en position 2:\n");
     SupprimeCellule(2, &head); // On passe l'adresse de la tête
     Afficher(head);
 
-    // --- Libération de la mémoire ---
-    // Modifie: "Libération"
+    // Libération de la mémoire
     printf("\nLiberation de la liste...\n");
     cellule *temp = head;
     cellule *aSupprimer;
@@ -63,7 +57,6 @@ int main(){
     }
     head = NULL; 
     
-    // Modifie: "Mémoire libérée"
     printf("Memoire liberee.\n");
     
     return 0;

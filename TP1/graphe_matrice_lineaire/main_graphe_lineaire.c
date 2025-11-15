@@ -1,67 +1,43 @@
-// Fichier : TP2/main_graphe.c (Corrigé)
-
 #include "graphe_lineaire.h"
-
-// Noms des pays pour l'affichage
-// Doit correspondre à l'ordre de la matrice dans carte_europe.txt
-const char* NOMS_PAYS[11] = {
-    "France (Fr)",      // 0
-    "Espagne (Es)",     // 1
-    "Portugal (Po)",    // 2
-    "Andorre (An)",     // 3
-    "Italie (It)",      // 4
-    "Autriche (Au)",    // 5
-    "Suisse (Su)",      // 6
-    "Allemagne (Al)",   // 7
-    "Luxembourg (Lu)",  // 8
-    "Belgique (Be)",    // 9
-    "Pays-Bas (PB)"     // 10
-};
-
+#include <stdio.h>
 
 int main() {
-    printf("--- Lancement Test TP2 - Partie Graphe ---\n");
+    // Créer un graphe simple
+    int N = 5;
+    Graphe* g = creer_graphe(N);
 
-    // 1. Charger le graphe depuis le fichier
-    Graphe* g = chargeGraphe("carte_europe.txt");
+    printf("--- Creation d'un graphe a %d sommets ---\n", N);
+
+    // Ajouter des arêtes (Exemple: un cycle à 5 sommets)
+    // 0 -- 1 -- 2
+    // |    |    |  (3-2)
+    // 4 -- 3 --/
+    // (et 1-3)
     
-    if (g == NULL) {
-        fprintf(stderr, "Impossible de charger le graphe.\n");
-        return 1;
-    }
+    ajouter_arete(g, 0, 1);
+    ajouter_arete(g, 1, 2);
+    ajouter_arete(g, 2, 3);
+    ajouter_arete(g, 3, 4);
+    ajouter_arete(g, 4, 0); // Le cycle
+    ajouter_arete(g, 1, 3); 
 
-    // Optionnel : afficher la matrice pour vérifier
+    // Afficher la matrice pour vérifier
     afficher_matrice(g);
 
-    // 2. Lancer la coloration
+    // Lancer l'algorithme de Welsh-Powell
     int* couleurs = coloration_welsh_powell(g);
 
-    // 3. Afficher les résultats détaillés
-    if (g->nb_sommets == 11) {
-        afficher_ordre_marquage_et_resultat(g, couleurs, NOMS_PAYS);
-    } else {
-        // Affichage générique si ce n'est pas le graphe des pays
-        afficher_ordre_marquage_et_resultat(g, couleurs, NULL);
+    // Afficher le résultat
+    printf("\n--- Resultat de la coloration ---\n");
+    for (int i = 0; i < N; i++) {
+        printf("Sommet %d -> Couleur %d\n", i, couleurs[i]);
     }
 
-    // 4. Nettoyage
+    // Nettoyage
     liberer_graphe(g);
     free(couleurs);
-
-    printf("\n--- Test 'chargeGraphe' depuis stdin ---\n");
-    // CORRECTION ACCENT: "Créez" -> "Creez"
-    printf("Creez un petit graphe (ex: 3 sommets, matrice 3x3)\n");
-    Graphe* g_stdin = chargeGraphe(NULL); // NULL pour lire depuis stdin
     
-    if (g_stdin) {
-        afficher_matrice(g_stdin);
-        int* couleurs_stdin = coloration_welsh_powell(g_stdin);
-        afficher_ordre_marquage_et_resultat(g_stdin, couleurs_stdin, NULL);
-        
-        liberer_graphe(g_stdin);
-        free(couleurs_stdin);
-    }
+    printf("\n--- Test TP1 termine ---\n");
 
-    printf("\n--- Fin Test TP2 - Partie Graphe ---\n");
     return 0;
 }
