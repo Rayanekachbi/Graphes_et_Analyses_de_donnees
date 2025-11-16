@@ -30,6 +30,23 @@ L’arborescence est organisée par travaux pratiques :
 * `Compte Rendu Global des TP.pdf` : Rapport détaillé du projet
 
 
+## Récupération du Projet
+
+Pour cloner le dépôt GitHub sur votre machine :
+
+```bash
+git clone https://github.com/Rayanekachbi/Graphes_et_Analyses_de_donnees
+```
+
+Puis se déplacer dans le dossier :
+
+```bash
+cd Graphes_et_Analyses_de_donnees
+```
+
+
+Si tu veux, je peux l’intégrer directement dans la version complète du README que je t’ai écrite précédemment.
+
 
 ## Compilation et Exécution
 
