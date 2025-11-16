@@ -1,6 +1,6 @@
-# Projet Algorithmique et Structures de Données (L3)
+# Projet Algorithmique avancée et Structures de Données
 
-Ce projet, réalisé dans le cadre de l'unité d'enseignement **Algorithmique et Structures de Données** (A.A L3), présente l'implémentation et l’analyse de plusieurs structures de données et algorithmes fondamentaux.
+Ce projet, réalisé dans le cadre de l'unité d'enseignement **Algorithmique avancée et Structures de Données**, présente l'implémentation et l’analyse de plusieurs structures de données et algorithmes fondamentaux.
 
 Il est structuré en quatre parties (TP0 à TP3), allant des structures de base (listes, arbres) jusqu’aux représentations avancées de graphes et à l’analyse de performance. Un objectif majeur du projet est l’étude et l’implémentation de l’algorithme de coloration **Welsh-Powell**.
 
@@ -43,9 +43,6 @@ Puis se déplacer dans le dossier :
 ```bash
 cd Graphes_et_Analyses_de_donnees
 ```
-
-
-Si tu veux, je peux l’intégrer directement dans la version complète du README que je t’ai écrite précédemment.
 
 
 ## Compilation et Exécution
